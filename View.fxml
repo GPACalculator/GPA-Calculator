@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <tabs>
+    <Tab fx:id="calcTab" text="Calculator">
+      <content>
+        <AnchorPane>
+               <children>
+                  <SplitPane dividerPositions="0.8" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane fx:id="inputPane">
+                           <children>
+                              <GridPane fx:id="inputGrid" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Text fx:id="cText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="creditsInput1" promptText="Ex: 3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </TextField>
+                                    <Text fx:id="gText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="gradeInput1" promptText="Ex: C-" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </TextField>
+                                    <Button fx:id="removeButton1" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <tooltip>
+                                          <Tooltip text="Remove this class." />
+                                       </tooltip>
+                                    </Button>
+                                    <Text fx:id="cText2" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="creditsInput2" promptText="Ex: 5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Text fx:id="gText2" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="gradeInput2" promptText="Ex: B+" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button fx:id="removeButton2" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <tooltip>
+                                          <Tooltip text="Remove this class." />
+                                       </tooltip>
+                                    </Button>
+                                    <Text fx:id="cText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="creditsInput3" promptText="Ex: 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Text fx:id="gText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Text>
+                                    <TextField fx:id="gradeInput3" promptText="Ex: A" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <Button fx:id="removeButton3" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <tooltip>
+                                          <Tooltip text="Remove this class." />
+                                       </tooltip>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane>
+                           <children>
+                              <VBox alignment="center" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GPA:  ">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <Text fx:id="gpaOutput" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="calcButton" mnemonicParsing="false" text="Calculate">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                             </HBox.margin>
+                                             <tooltip>
+                                                <Tooltip text="Calculate GPA." />
+                                             </tooltip>
+                                          </Button>
+                                          <Button fx:id="addButton" mnemonicParsing="false" text="Add">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <tooltip>
+                                                <Tooltip text="Add new class." />
+                                             </tooltip>
+                                          </Button>
+                                          <Button fx:id="saveButton" mnemonicParsing="false" text="Save">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <tooltip>
+                                                <Tooltip text="Save &amp; Graph this GPA." />
+                                             </tooltip>
+                                          </Button>
+                                          <Button fx:id="newButton" mnemonicParsing="false" text="New">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <tooltip>
+                                                <Tooltip text="Start a new GPA &amp; save/graph this GPA." />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
+      </content>
+         <tooltip>
+            <Tooltip text="GPA Calculator" />
+         </tooltip>
+    </Tab>
+    <Tab fx:id="graphTab" text="Graph">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+         <tooltip>
+            <Tooltip text="Graph of GPAs" />
+         </tooltip>
+    </Tab>
+      <Tab fx:id="chartTab" text="Chart">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+         <tooltip>
+            <Tooltip text="Chart of all possible grades for a class." />
+         </tooltip>
+      </Tab>
+  </tabs>
+</TabPane>
