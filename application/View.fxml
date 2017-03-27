@@ -8,15 +8,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
   <tabs>
-    <Tab fx:id="calcTab" text="Calculator">
+    <Tab text="Calculator">
       <content>
         <AnchorPane>
                <children>
                   <SplitPane dividerPositions="0.8" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane fx:id="inputPane">
+                      <AnchorPane>
                            <children>
                               <GridPane fx:id="inputGrid" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columnConstraints>
@@ -64,7 +64,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </TextField>
-                                    <Button fx:id="removeButton1" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Button fx:id="removeButton1" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -87,12 +87,12 @@
                                        </GridPane.margin>
                                     </Text>
                                     <TextField fx:id="creditsInput2" promptText="Ex: 5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
                                     </TextField>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <font>
@@ -103,14 +103,14 @@
                                        </GridPane.margin>
                                     </Text>
                                     <TextField fx:id="gradeInput2" promptText="Ex: B+" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
                                     </TextField>
-                                    <Button fx:id="removeButton2" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <Button fx:id="removeButton2" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -133,12 +133,12 @@
                                        </GridPane.margin>
                                     </Text>
                                     <TextField fx:id="creditsInput3" promptText="Ex: 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
                                     </TextField>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                        <font>
@@ -149,14 +149,14 @@
                                        </GridPane.margin>
                                     </Text>
                                     <TextField fx:id="gradeInput3" promptText="Ex: A" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
                                     </TextField>
-                                    <Button fx:id="removeButton3" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 5em;" text="־" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <Button fx:id="removeButton3" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -203,7 +203,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Button fx:id="calcButton" mnemonicParsing="false" text="Calculate">
+                                          <Button fx:id="calcButton" mnemonicParsing="false" onAction="#calculateGPA" text="Calculate">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -214,7 +214,7 @@
                                                 <Tooltip text="Calculate GPA." />
                                              </tooltip>
                                           </Button>
-                                          <Button fx:id="addButton" mnemonicParsing="false" text="Add">
+                                          <Button fx:id="addButton" mnemonicParsing="false" onAction="#addRow" text="Add">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                                              </HBox.margin>
@@ -225,7 +225,7 @@
                                                 <Tooltip text="Add new class." />
                                              </tooltip>
                                           </Button>
-                                          <Button fx:id="saveButton" mnemonicParsing="false" text="Save">
+                                          <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveSemester" text="Save">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                                              </HBox.margin>
@@ -236,7 +236,7 @@
                                                 <Tooltip text="Save &amp; Graph this GPA." />
                                              </tooltip>
                                           </Button>
-                                          <Button fx:id="newButton" mnemonicParsing="false" text="New">
+                                          <Button fx:id="newButton" mnemonicParsing="false" onAction="#newSemester" text="New">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                                              </HBox.margin>
@@ -267,10 +267,10 @@
              <children>
                 <LineChart fx:id="graph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
-                    <CategoryAxis side="BOTTOM" label="Semester" fx:id="xAxis"/>
+                    <CategoryAxis label="Semester" side="BOTTOM" fx:id="xAxis" />
                   </xAxis>
                   <yAxis>
-                    <NumberAxis side="LEFT" label="Overall GPA" fx:id="yAxis"/>
+                    <NumberAxis fx:id="yAxis" label="Overall GPA" side="LEFT" />
                   </yAxis>
                    <padding>
                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -283,7 +283,7 @@
          <Tooltip text="Graph of GPAs" />
       </tooltip>
     </Tab>
-      <Tab fx:id="chartTab" text="Chart">
+      <Tab text="Chart">
         <content>
          <AnchorPane>
                 <children>
