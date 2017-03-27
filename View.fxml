@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -262,11 +263,25 @@
     </Tab>
     <Tab fx:id="graphTab" text="Graph">
       <content>
-        <AnchorPane />
+        <AnchorPane minHeight="0.0" minWidth="0.0">
+             <children>
+                <LineChart AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Semester" fx:id="xAxisLabel"/>
+                  </xAxis>
+                  <yAxis>
+                    <NumberAxis side="LEFT" label="Overall GPA" fx:id="yAxisLabel"/>
+                  </yAxis>
+                   <padding>
+                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </padding>
+                </LineChart>
+             </children>
+         </AnchorPane>
       </content>
-         <tooltip>
-            <Tooltip text="Graph of GPAs" />
-         </tooltip>
+      <tooltip>
+         <Tooltip text="Graph of GPAs" />
+      </tooltip>
     </Tab>
       <Tab fx:id="chartTab" text="Chart">
         <content>
