@@ -32,7 +32,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Text fx:id="cText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -48,7 +48,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </TextField>
-                                    <Text fx:id="gText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -78,7 +78,7 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <Text fx:id="cText2" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -94,7 +94,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Text fx:id="gText2" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -124,7 +124,7 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <Text fx:id="cText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -140,7 +140,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Text fx:id="gText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -261,16 +261,16 @@
             <Tooltip text="GPA Calculator" />
          </tooltip>
     </Tab>
-    <Tab fx:id="graphTab" text="Graph">
+    <Tab text="Graph">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0">
              <children>
-                <LineChart AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <LineChart fx:id="graph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
-                    <CategoryAxis side="BOTTOM" label="Semester" fx:id="xAxisLabel"/>
+                    <CategoryAxis side="BOTTOM" label="Semester" fx:id="xAxis"/>
                   </xAxis>
                   <yAxis>
-                    <NumberAxis side="LEFT" label="Overall GPA" fx:id="yAxisLabel"/>
+                    <NumberAxis side="LEFT" label="Overall GPA" fx:id="yAxis"/>
                   </yAxis>
                    <padding>
                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
