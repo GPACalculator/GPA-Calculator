@@ -1,6 +1,7 @@
 package application;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,11 +68,103 @@ public class Controller implements Initializable
 	private LineChart<CategoryAxis, Number> graph;
 	private XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
 	
+	private ArrayList<TextField> listOfTextFields = new ArrayList<TextField>();
+	
+	
 	int numberOfRows = 3;
 
+	//Written by: Elizabeth Nondorf
 	@FXML
 	private void calculateGPA(ActionEvent e)
 	{
+		if(numberOfRows==3)
+		{
+			listOfTextFields.add(creditsInput1);
+			listOfTextFields.add(gradeInput1);
+			listOfTextFields.add(creditsInput2);
+			listOfTextFields.add(gradeInput2);
+			listOfTextFields.add(creditsInput3);
+			listOfTextFields.add(gradeInput3);
+		}
+		
+		int numberSemesterHours =0;
+		
+		int listTextFieldIndex = 0;
+		
+		double totalClassPoints = 0;
+		
+		double gpa = 0;
+		
+		for(int i = 0; i<numberOfRows; i++)
+		{
+			//get the row's class hours
+			int classHours = Integer.parseInt(listOfTextFields.get(listTextFieldIndex).getText());
+			listTextFieldIndex++;
+			
+			numberSemesterHours = numberSemesterHours + classHours;
+			
+			//get the row's grade
+			String grade = listOfTextFields.get(listTextFieldIndex).getText();
+			listTextFieldIndex++;
+			double gradeScaled=0;
+			
+			if(grade.equals("A+"))
+			{
+				gradeScaled = 4.0;
+			}
+			else if(grade.equals("A"))
+			{
+				gradeScaled = 4.0;
+			}
+			else if(grade.equals("A-"))
+			{
+				gradeScaled = 3.7;
+			}
+			else if(grade.equals("B+"))
+			{
+				gradeScaled = 3.3;
+			}
+			else if(grade.equals("B"))
+			{
+				gradeScaled = 3.0;
+			}
+			else if(grade.equals("B-"))
+			{
+				gradeScaled = 2.7;
+			}
+			else if(grade.equals("C+"))
+			{
+				gradeScaled = 2.3;
+			}
+			else if(grade.equals("C"))
+			{
+				gradeScaled = 2.0;
+			}
+			else if(grade.equals("C-"))
+			{
+				gradeScaled = 1.7;
+			}
+			else if(grade.equals("D+"))
+			{
+				gradeScaled = 1.3;
+			}
+			else if(grade.equals("D"))
+			{
+				gradeScaled = 1.0;
+			}
+			else if(grade.equals("F"))
+			{
+				gradeScaled = 0.0;
+			}
+			
+			totalClassPoints = totalClassPoints + (classHours*gradeScaled);
+		}
+		
+		gpa = totalClassPoints/numberSemesterHours;
+		gpa = Math.round(gpa*100);
+		gpa = gpa/100;
+		
+		gpaOutput.setText(Double.toString(gpa));
 	}
 
 	//Written by: Emily Black
@@ -79,6 +172,17 @@ public class Controller implements Initializable
 	@FXML
 	private void addRow(ActionEvent e)
 	{
+		
+		if(numberOfRows==3)
+		{
+			listOfTextFields.add(creditsInput1);
+			listOfTextFields.add(gradeInput1);
+			listOfTextFields.add(creditsInput2);
+			listOfTextFields.add(gradeInput2);
+			listOfTextFields.add(creditsInput3);
+			listOfTextFields.add(gradeInput3);
+		}
+		
 		numberOfRows++;
 		
 		Text creditsName = new Text("Credits:");
@@ -88,6 +192,7 @@ public class Controller implements Initializable
 		creditsInput4.setPromptText("Ex: 3");
 		creditsInput4.setId("creditsInput" + numberOfRows);
 		creditsInput4.setPadding(new Insets(5, 5, 5, 5));
+		listOfTextFields.add(creditsInput4);
 		
 		Text gradeName = new Text("Grade:");
 		gradeName.fontProperty().setValue(new Font(15));
@@ -96,6 +201,7 @@ public class Controller implements Initializable
 		gradeInput4.setPromptText("Ex: C-");
 		creditsInput4.setId("gradeInput" + numberOfRows);
 		gradeInput4.setPadding(new Insets(5, 5, 5, 5));
+		listOfTextFields.add(gradeInput4);
 		
 		Button removeButton4 = new Button("-");
 		removeButton4.fontProperty().setValue(new Font(15));
@@ -156,3 +262,4 @@ public class Controller implements Initializable
 	}
 
 }
+
