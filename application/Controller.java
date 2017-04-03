@@ -3,7 +3,6 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -76,17 +73,13 @@ public class Controller implements Initializable
 	@FXML
 	private Button newButton;
 	@FXML
-	private CategoryAxis xAxis;
-	@FXML
-    private NumberAxis yAxis;
-	@FXML
-	private LineChart<CategoryAxis, Number> graph;
-	private XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
+	private BarChart<String, Double> graph;
 	
+	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
-	@SuppressWarnings("rawtypes")
-	private ArrayList<ComboBox> listOfGrades = new ArrayList<ComboBox>();
+	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
 	int numberOfRows = 2; 
+	int numberOfSemesters = 1; 
 
 	//Written by: Elizabeth Nondorf
 	@FXML
@@ -283,10 +276,20 @@ public class Controller implements Initializable
 		
 	}
 
+	//Written by: Emily Black
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
-		
+		// If we have a gpa to graph
+		if(!(gpaOutput.getText().equals(null)))
+		{
+			series.getData().add(new XYChart.Data("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+			graph.getData().clear(); //clears data so we dont add duplicates
+			graph.getData().addAll(series);
+			graph.setLegendVisible(false);
+			numberOfSemesters++;
+		}
 	}
 
 	@FXML
