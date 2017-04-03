@@ -311,6 +311,7 @@ public class Controller implements Initializable
 				graph.setLegendVisible(false);
 				numberOfSemesters++;
 			}
+			//Else if we have saved
 			else if(isSaved)
 			{
 				// clear grid
