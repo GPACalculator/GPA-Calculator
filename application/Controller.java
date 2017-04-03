@@ -277,14 +277,14 @@ public class Controller implements Initializable
 	}
 
 	//Written by: Emily Black
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
 		// If we have a gpa to graph
 		if(!(gpaOutput.getText().equals(null)))
 		{
-			series.getData().add(new XYChart.Data("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+			series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
 			graph.getData().clear(); //clears data so we dont add duplicates
 			graph.getData().addAll(series);
 			graph.setLegendVisible(false);
@@ -292,9 +292,63 @@ public class Controller implements Initializable
 		}
 	}
 
+	//Written by: Elizabeth Nondorf
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void newSemester(ActionEvent e)
 	{
+		// save semester & clear elements if we have gpa to save
+		if(!(gpaOutput.getText().equals(null)))
+		{
+			series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+			graph.getData().clear(); //clears data so we dont add duplicates
+			graph.getData().addAll(series);
+			graph.setLegendVisible(false);
+			numberOfSemesters++;
+			
+			// clear grid
+			for(int i = numberOfRows; i >= 3; i--)
+			{
+				int row = i;
+				Set<Node> deleteNodes = new HashSet<>(5);
+				 
+				for (Node child : inputGrid.getChildren()) {
+			        	// get index from child
+				        Integer rowIndex = GridPane.getRowIndex(child);
+			
+				        // handle null values for index=0
+				        int r = rowIndex == null ? 0 : rowIndex;
+			
+				        if (r > row) {
+				            // decrement rows for rows after the deleted row
+				            GridPane.setRowIndex(child, r-1);
+				        } else if (r == row) {
+				            // collect matching rows for deletion
+				            deleteNodes.add(child);
+				            child.setManaged(false);
+				        }
+				}
+				
+				// remove nodes from row
+				inputGrid.getChildren().removeAll(deleteNodes);
+			}
+			
+			for(int j = 0; j < listOfCredits.size(); j++)
+			{
+				listOfCredits.get(j).setText("");
+				listOfGrades.get(j).setValue(null);
+			}
+			
+			gpaOutput.setText("");
+		}
+		else
+		{
+			try {
+				throw new Exception("No GPA to save. ABORTING.");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 		
 	}
 
