@@ -156,8 +156,28 @@
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </HBox.margin>
-                                          </Text>
+                                          </Text> 
                                        </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER">
+                                    	<children>
+	                                    	<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cumulative GPA:  ">
+	                                             <font>
+	                                                <Font size="15.0" />
+	                                             </font>
+	                                             <HBox.margin>
+	                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+	                                             </HBox.margin>
+	                                          </Text>
+	                                          <Text fx:id="cumGPAOutput" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00">
+	                                             <font>
+	                                                <Font size="15.0" />
+	                                             </font>
+	                                             <HBox.margin>
+	                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+	                                             </HBox.margin>
+	                                          </Text>
+                                    	</children>
                                     </HBox>
                                     <HBox alignment="CENTER">
                                        <children>
@@ -223,7 +243,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0">
              <children>
-                <AreaChart fx:id="graph" prefHeight="324.0" prefWidth="600.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AreaChart fx:id="graph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
                     <CategoryAxis label="Semester" side="BOTTOM" />
                   </xAxis>
@@ -234,8 +254,6 @@
                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                    </padding>
                 </AreaChart>
-                  <Text fx:id="cumGPALabel" layoutX="201.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cummulative GPA:" />
-                  <Text fx:id="cumGPAOutput" layoutX="308.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" />
              </children>
          </AnchorPane>
       </content>
@@ -243,16 +261,16 @@
          <Tooltip text="Graph of GPAs" />
       </tooltip>
     </Tab>
-      <Tab text="Pie Chart">
+    <Tab text="Pie Chart">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                  <PieChart fx:id="pieChart" layoutX="-4.0" legendSide="RIGHT" prefHeight="371.0" prefWidth="606.0" title="Grade Distribution" />
+                  <PieChart fx:id="pieChart" legendSide="RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" title="Grade Distribution" />
                </children>
             </AnchorPane>
         </content>
          <tooltip>
-            <Tooltip text="Pie chart of grade distribution" />
+            <Tooltip text="Chart of grade distribution." />
          </tooltip>
       </Tab>
       <Tab text="Chart">

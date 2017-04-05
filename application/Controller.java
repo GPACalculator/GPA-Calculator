@@ -11,6 +11,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -65,6 +66,8 @@ public class Controller implements Initializable
 	@FXML
 	private Text gpaOutput;
 	@FXML
+	private Text cumGPAOutput;
+	@FXML
 	private Button calcButton;
 	@FXML
 	private Button addButton;
@@ -74,6 +77,8 @@ public class Controller implements Initializable
 	private Button newButton;
 	@FXML
 	private AreaChart<String, Double> graph;
+	@FXML
+	private PieChart pieChart;
 	
 	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
