@@ -132,9 +132,6 @@
                                     <ComboBox fx:id="gradeInput2" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                     <ComboBox fx:id="gradeInput3" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                                  </children>
-                                 <padding>
-                                    <Insets bottom="10.0" />
-                                 </padding>
                               </GridPane>
                            </children>
                         </AnchorPane>
@@ -226,17 +223,17 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0">
              <children>
-                <BarChart fx:id="graph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AreaChart fx:id="graph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <xAxis>
                     <CategoryAxis label="Semester" side="BOTTOM" />
                   </xAxis>
                   <yAxis>
-                    <NumberAxis label="Overall GPA" side="LEFT" />
+                    <NumberAxis label="GPA" side="LEFT" />
                   </yAxis>
                    <padding>
                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                    </padding>
-                </BarChart>
+                </AreaChart>
              </children>
          </AnchorPane>
       </content>

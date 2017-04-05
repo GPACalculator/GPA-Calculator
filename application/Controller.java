@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -73,7 +73,7 @@ public class Controller implements Initializable
 	@FXML
 	private Button newButton;
 	@FXML
-	private BarChart<String, Double> graph;
+	private AreaChart<String, Double> graph;
 	
 	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
@@ -98,6 +98,11 @@ public class Controller implements Initializable
 				}
 			}
 		}
+		
+		saveButton.setDisable(false);
+		
+		newButton.setDisable(false);
+		
 		double numberSemesterHours = 0.0;
 		
 		int listTextFieldIndex = 0;
@@ -176,14 +181,6 @@ public class Controller implements Initializable
 			{
 				gradeScaled = 0.0;
 			}
-			else
-			{
-				try {
-					throw new Exception("Unknown Grade. ABORTING.");
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
 			
 			totalClassPoints += (classHours*gradeScaled);
 		}
@@ -199,6 +196,9 @@ public class Controller implements Initializable
 	@FXML
 	private void addRow(ActionEvent e)
 	{
+		saveButton.setDisable(true);
+		
+		newButton.setDisable(true);
 		numberOfRows++;
 		
 		final Text creditsName = new Text("Credits:");
@@ -311,7 +311,6 @@ public class Controller implements Initializable
 				graph.setLegendVisible(false);
 				numberOfSemesters++;
 			}
-			//Else if we have saved
 			else if(isSaved)
 			{
 				// clear grid
@@ -396,6 +395,9 @@ public class Controller implements Initializable
 	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		saveButton.setDisable(true);
+		newButton.setDisable(true);
 		
 		// Constrains first row	
 		inputGrid.setRowIndex(text0, 0);
