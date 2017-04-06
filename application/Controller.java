@@ -96,7 +96,7 @@ public class Controller implements Initializable
 		//If any input fields are empty
 		for(int i = 0; i < inputGrid.getChildren().size(); i++)
 		{
-			if(inputGrid.getChildren().get(i).equals(null))
+			if(inputGrid.getChildren().get(i) == null)
 			{
 				try {
 					throw new Exception("Field(s) empty. ABORTING.");
