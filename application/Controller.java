@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 /** 
  * Controller for GPA-Calculator
- * Last modified: 3/26/17
+ * Last modified: 4/06/17
  * @author GPA-Calculator Team
  * This program calculates your GPA based on credits/grade. Also has graph/chart feature. 
  */
@@ -83,9 +83,11 @@ public class Controller implements Initializable
 	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
 	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
-	int numberOfRows = 2; 
+	int numberOfRows = 3; 
 	int numberOfSemesters = 1; 
 	boolean isSaved = false;
+	private double totalCreditPoints = 0.0;
+	private double totalGradePoints = 0.0;
 
 	//Written by: Elizabeth Nondorf
 	@FXML
@@ -110,11 +112,7 @@ public class Controller implements Initializable
 		
 		double numberSemesterHours = 0.0;
 		
-		int listTextFieldIndex = 0;
-		
 		double totalClassPoints = 0.0;
-		
-		double gpa = 0.0;
 		
 		double gradeScaled=0.0;
 		
@@ -122,17 +120,15 @@ public class Controller implements Initializable
 		
 		String grade = "";
 		
-		for(int i = 0; i < numberOfRows+1; i++)
+		for(int i = 0; i < numberOfRows; i++)
 		{
 			//get the row's class hours
-			classHours = Integer.parseInt(listOfCredits.get(listTextFieldIndex).getText());
+			classHours = Integer.parseInt(listOfCredits.get(i).getText());
 			
 			numberSemesterHours += classHours;
 			
 			//get the row's grade
-			grade = (listOfGrades.get(listTextFieldIndex).getValue()).toString();
-			
-			listTextFieldIndex++;
+			grade = (listOfGrades.get(i).getValue()).toString();
 			
 			if(grade.equals("A+"))
 			{
@@ -190,10 +186,13 @@ public class Controller implements Initializable
 			totalClassPoints += (classHours*gradeScaled);
 		}
 		
-		gpa = totalClassPoints/numberSemesterHours;
-		gpa = Math.round(gpa * 100.0) / 100.0;
+		//Math for cumulativeGPA
+		totalGradePoints += totalClassPoints;
+		totalCreditPoints += numberSemesterHours;
+		cumGPAOutput.setText(Double.toString(Math.round((totalGradePoints/totalCreditPoints) * 100.0) / 100.0));
 		
-		gpaOutput.setText(Double.toString(gpa));
+		//Current semesters GPA
+		gpaOutput.setText(Double.toString(Math.round(totalClassPoints/numberSemesterHours * 100.0) / 100.0));
 	}
 
 	//Written by: Emily Black
@@ -315,11 +314,12 @@ public class Controller implements Initializable
 				graph.getData().addAll(series);
 				graph.setLegendVisible(false);
 				numberOfSemesters++;
+				isSaved = true;
 			}
-			else if(isSaved)
+			if(isSaved)
 			{
 				// clear grid
-				for(int i = numberOfRows; i >= 3; i--)
+				for(int i = numberOfRows; i > 3; i--)
 				{
 					int row = i;
 					Set<Node> deleteNodes = new HashSet<>(5);
@@ -345,11 +345,21 @@ public class Controller implements Initializable
 					inputGrid.getChildren().removeAll(deleteNodes);
 				}
 				
-				for(int j = 0; j < listOfCredits.size(); j++)
+				//Remove extra rows from list
+				for(int j = numberOfRows-1; j > 3; j--)
 				{
-					listOfCredits.get(j).setText("");
-					listOfGrades.get(j).setValue(null);
+					listOfCredits.remove(listOfCredits.get(j));
+					listOfGrades.remove(listOfGrades.get(j));
 				}
+				
+				numberOfRows = 3;
+				
+				//Clear first 3 rows
+				for(int k = 0; k < numberOfRows; k++)
+				{
+					listOfCredits.get(k).clear();
+					listOfGrades.get(k).valueProperty().set(null);
+				}	
 			}
 			
 			gpaOutput.setText("");
