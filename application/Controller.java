@@ -87,6 +87,8 @@ public class Controller implements Initializable
 	@FXML
 	private PieChart pieChart;
 	
+	private ArrayList<TextField> listOfTextFields = new ArrayList<TextField>();
+	private Model model;
 	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
 	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
@@ -309,12 +311,16 @@ public class Controller implements Initializable
 		inputGrid.setRowIndex(removeButton4, numberOfRows);
 		
 	}
-
+	
 	//Written by: Emily Black and Elizabeth Nondorf
 	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
+		
+		//This will retrieve the information from the view and store it in the model database
+		model.setSemesterGPA(gpaOutput.getText());
+		
 		// If we have a gpa to graph
 		if(!(gpaOutput.getText().equals(null)))
 		{
@@ -450,7 +456,6 @@ public class Controller implements Initializable
 				alert.showAndWait();
 			}
 		}
-		
 	}
 
 	//Written by: Emily Black
@@ -551,5 +556,4 @@ public class Controller implements Initializable
 	        }
 	    };
 	}
-
 }
