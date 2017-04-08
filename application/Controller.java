@@ -1,8 +1,13 @@
 package application;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,12 +17,18 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
@@ -89,6 +100,9 @@ public class Controller implements Initializable
 	private double totalCreditPoints = 0.0;
 	private double totalGradePoints = 0.0;
 
+	private int[] pieData = new int[5];
+	private int totalGrades = 0;
+	
 	//Written by: Elizabeth Nondorf
 	@FXML
 	private void calculateGPA(ActionEvent e)
@@ -99,9 +113,15 @@ public class Controller implements Initializable
 			if(inputGrid.getChildren().get(i) == null)
 			{
 				try {
+					
 					throw new Exception("Field(s) empty. ABORTING.");
 				} catch (Exception e1) {
 					e1.printStackTrace();
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error");
+					alert.setHeaderText("You have left a field empty");
+					alert.setContentText("Please make sure you have completely filled out the form before calculating your GPA.");
+					alert.showAndWait();
 				}
 			}
 		}
@@ -133,54 +153,67 @@ public class Controller implements Initializable
 			if(grade.equals("A+"))
 			{
 				gradeScaled = 4.0;
+				pieData[0] = pieData[0]+1;
 			}
 			else if(grade.equals("A"))
 			{
 				gradeScaled = 4.0;
+				pieData[0] = pieData[0]+1;
 			}
 			else if(grade.equals("A-"))
 			{
 				gradeScaled = 3.7;
+				pieData[0] = pieData[0]+1;
 			}
 			else if(grade.equals("B+"))
 			{
 				gradeScaled = 3.3;
+				pieData[1] = pieData[1]+1;
 			}
 			else if(grade.equals("B"))
 			{
 				gradeScaled = 3.0;
+				pieData[1] = pieData[1]+1;
 			}
 			else if(grade.equals("B-"))
 			{
 				gradeScaled = 2.7;
+				pieData[1] = pieData[1]+1;
 			}
 			else if(grade.equals("C+"))
 			{
 				gradeScaled = 2.3;
+				pieData[2] = pieData[2]+1;
 			}
 			else if(grade.equals("C"))
 			{
 				gradeScaled = 2.0;
+				pieData[2] = pieData[2]+1;
 			}
 			else if(grade.equals("C-"))
 			{
 				gradeScaled = 1.7;
+				pieData[2] = pieData[2]+1;
 			}
 			else if(grade.equals("D+"))
 			{
 				gradeScaled = 1.3;
+				pieData[3] = pieData[3]+1;
 			}
 			else if(grade.equals("D"))
 			{
 				gradeScaled = 1.0;
+				pieData[3] = pieData[3]+1;
 			}
 			else if(grade.equals("D-"))
 			{
 				gradeScaled = 0.7;
+				pieData[3] = pieData[3]+1;
 			}
 			else if(grade.equals("F"))
 			{
 				gradeScaled = 0.0;
+				pieData[4] = pieData[4]+1;
 			}
 			
 			totalClassPoints += (classHours*gradeScaled);
@@ -281,7 +314,7 @@ public class Controller implements Initializable
 		
 	}
 
-	//Written by: Emily Black
+	//Written by: Emily Black and Elizabeth Nondorf
 	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void saveSemester(ActionEvent e)
@@ -295,8 +328,29 @@ public class Controller implements Initializable
 			graph.setLegendVisible(false);
 			numberOfSemesters++;
 			isSaved = true;
+			
+			
+			for(int i = 0; i<pieData.length; i++)
+			{
+				totalGrades = totalGrades + pieData[i];
+			}
+			
+			double[] percents = new double[5];
+			for(int k = 0; k<percents.length; k++)
+			{
+				percents[k]=(100.0*pieData[k]/totalGrades);
+			}
+			
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			
+			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
+					new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
+			pieChart.setData(pieChartData);
+			pieChart.setLegendVisible(false);
+			
 		}
 	}
+	
 
 	//Written by: Elizabeth Nondorf
 	@SuppressWarnings("unchecked")
@@ -364,6 +418,9 @@ public class Controller implements Initializable
 			
 			gpaOutput.setText("");
 			isSaved = false;
+			
+			saveButton.setDisable(true);
+			newButton.setDisable(true);
 		}
 		else
 		{
@@ -371,6 +428,11 @@ public class Controller implements Initializable
 				throw new Exception("No GPA to save. ABORTING.");
 			} catch (Exception e1) {
 				e1.printStackTrace();
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("You have not calculated your GPA yet");
+				alert.setContentText("Please hit \"Calculate\" to calculate your GPA.");
+				alert.showAndWait();
 			}
 		}
 		
