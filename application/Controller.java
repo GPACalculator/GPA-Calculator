@@ -1,28 +1,38 @@
 package application;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /** 
  * Controller for GPA-Calculator
- * Last modified: 3/26/17
+ * Last modified: 4/06/17
  * @author GPA-Calculator Team
  * This program calculates your GPA based on credits/grade. Also has graph/chart feature. 
  */
@@ -31,37 +41,39 @@ public class Controller implements Initializable
 	@FXML
 	private GridPane inputGrid;
 	@FXML
-	private Text text1;
+	private Text text0;
 	@FXML
 	private TextField creditsInput1;
 	@FXML
-	private Text text11;
+	private Text text00;
 	@FXML
-	private TextField gradeInput1;
+	private ComboBox<String> gradeInput1;
 	@FXML
 	private Button removeButton1;
 	@FXML
-	private Text text2;
+	private Text text1;
 	@FXML
 	private TextField creditsInput2;
 	@FXML
-	private Text text22;
+	private Text text11;
 	@FXML
-	private TextField gradeInput2;
+	private ComboBox<String> gradeInput2;
 	@FXML
 	private Button removeButton2;
 	@FXML
-	private Text text3;
+	private Text text2;
 	@FXML
 	private TextField creditsInput3;
 	@FXML
-	private Text text33;
+	private Text text22;
 	@FXML
-	private TextField gradeInput3;
+	private ComboBox<String> gradeInput3;
 	@FXML
 	private Button removeButton3;
 	@FXML
 	private Text gpaOutput;
+	@FXML
+	private Text cumGPAOutput;
 	@FXML
 	private Button calcButton;
 	@FXML
@@ -71,118 +83,157 @@ public class Controller implements Initializable
 	@FXML
 	private Button newButton;
 	@FXML
-	private CategoryAxis xAxis;
+	private AreaChart<String, Double> graph;
 	@FXML
-    private NumberAxis yAxis;
-	@FXML
-	private LineChart<CategoryAxis, Number> graph;
-	private XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
+	private PieChart pieChart;
 	
 	private ArrayList<TextField> listOfTextFields = new ArrayList<TextField>();
-	int numberOfRows = 3;
 	private Model model;
+	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
+	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
+	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
+	int numberOfRows = 3; 
+	int numberOfSemesters = 1; 
+	boolean isSaved = false;
+	private double totalCreditPoints = 0.0;
+	private double totalGradePoints = 0.0;
 
+	private int[] pieData = new int[5];
+	private int totalGrades = 0;
+	
 	//Written by: Elizabeth Nondorf
 	@FXML
 	private void calculateGPA(ActionEvent e)
 	{
-		int numberSemesterHours = 0;
+		//If any input fields are empty
+		for(int i = 0; i < inputGrid.getChildren().size(); i++)
+		{
+			if(inputGrid.getChildren().get(i) == null)
+			{
+				try {
+					
+					throw new Exception("Field(s) empty. ABORTING.");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error");
+					alert.setHeaderText("You have left a field empty");
+					alert.setContentText("Please make sure you have completely filled out the form before calculating your GPA.");
+					alert.showAndWait();
+				}
+			}
+		}
 		
-		int listTextFieldIndex = 0;
+		saveButton.setDisable(false);
 		
-		double totalClassPoints = 0.00;
+		newButton.setDisable(false);
 		
-		double gpa = 0.00;
+		double numberSemesterHours = 0.0;
+		
+		double totalClassPoints = 0.0;
+		
+		double gradeScaled=0.0;
+		
+		int classHours = 0;
+		
+		String grade = "";
 		
 		for(int i = 0; i < numberOfRows; i++)
 		{
 			//get the row's class hours
-			int classHours = Integer.parseInt(listOfTextFields.get(listTextFieldIndex).getText());
-			listTextFieldIndex++;
+			classHours = Integer.parseInt(listOfCredits.get(i).getText());
 			
-			numberSemesterHours = numberSemesterHours + classHours;
+			numberSemesterHours += classHours;
 			
 			//get the row's grade
-			String grade = listOfTextFields.get(listTextFieldIndex).getText();
-			listTextFieldIndex++;
-			double gradeScaled=0.00;
+			grade = (listOfGrades.get(i).getValue()).toString();
 			
-			if(grade.toUpperCase().equals("A+"))
+			if(grade.equals("A+"))
 			{
 				gradeScaled = 4.0;
+				pieData[0] = pieData[0]+1;
 			}
-			else if(grade.toUpperCase().equals("A"))
+			else if(grade.equals("A"))
 			{
 				gradeScaled = 4.0;
+				pieData[0] = pieData[0]+1;
 			}
-			else if(grade.toUpperCase().equals("A-"))
+			else if(grade.equals("A-"))
 			{
 				gradeScaled = 3.7;
+				pieData[0] = pieData[0]+1;
 			}
-			else if(grade.toUpperCase().equals("B+"))
+			else if(grade.equals("B+"))
 			{
 				gradeScaled = 3.3;
+				pieData[1] = pieData[1]+1;
 			}
-			else if(grade.toUpperCase().equals("B"))
+			else if(grade.equals("B"))
 			{
 				gradeScaled = 3.0;
+				pieData[1] = pieData[1]+1;
 			}
-			else if(grade.toUpperCase().equals("B-"))
+			else if(grade.equals("B-"))
 			{
 				gradeScaled = 2.7;
+				pieData[1] = pieData[1]+1;
 			}
-			else if(grade.toUpperCase().equals("C+"))
+			else if(grade.equals("C+"))
 			{
 				gradeScaled = 2.3;
+				pieData[2] = pieData[2]+1;
 			}
-			else if(grade.toUpperCase().equals("C"))
+			else if(grade.equals("C"))
 			{
 				gradeScaled = 2.0;
+				pieData[2] = pieData[2]+1;
 			}
-			else if(grade.toUpperCase().equals("C-"))
+			else if(grade.equals("C-"))
 			{
 				gradeScaled = 1.7;
+				pieData[2] = pieData[2]+1;
 			}
-			else if(grade.toUpperCase().equals("D+"))
+			else if(grade.equals("D+"))
 			{
 				gradeScaled = 1.3;
+				pieData[3] = pieData[3]+1;
 			}
-			else if(grade.toUpperCase().equals("D"))
+			else if(grade.equals("D"))
 			{
 				gradeScaled = 1.0;
+				pieData[3] = pieData[3]+1;
 			}
-			else if(grade.toUpperCase().equals("D-"))
+			else if(grade.equals("D-"))
 			{
-				gradeScaled = 1.0;
+				gradeScaled = 0.7;
+				pieData[3] = pieData[3]+1;
 			}
-			else if(grade.toUpperCase().equals("F"))
+			else if(grade.equals("F"))
 			{
 				gradeScaled = 0.0;
-			}
-			else
-			{
-				try {
-					throw new Exception("Unknown Grade. ABORTING.");
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+				pieData[4] = pieData[4]+1;
 			}
 			
-			totalClassPoints = totalClassPoints + (classHours*gradeScaled);
+			totalClassPoints += (classHours*gradeScaled);
 		}
 		
-		gpa = totalClassPoints/numberSemesterHours;
-		gpa = Math.round(gpa*100.00);
-		gpa = gpa/100.00;
+		//Math for cumulativeGPA
+		totalGradePoints += totalClassPoints;
+		totalCreditPoints += numberSemesterHours;
+		cumGPAOutput.setText(Double.toString(Math.round((totalGradePoints/totalCreditPoints) * 100.0) / 100.0));
 		
-		gpaOutput.setText(Double.toString(gpa));
+		//Current semesters GPA
+		gpaOutput.setText(Double.toString(Math.round(totalClassPoints/numberSemesterHours * 100.0) / 100.0));
 	}
 
 	//Written by: Emily Black
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "unchecked" })
 	@FXML
 	private void addRow(ActionEvent e)
 	{
+		saveButton.setDisable(true);
+		
+		newButton.setDisable(true);
 		numberOfRows++;
 		
 		final Text creditsName = new Text("Credits:");
@@ -190,139 +241,319 @@ public class Controller implements Initializable
 		creditsName.setId("text" + numberOfRows);
 		
 		final TextField creditsInput4 = new TextField();
+		creditsInput4.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
 		creditsInput4.setPromptText("Ex: 3");
 		creditsInput4.setId("creditsInput" + numberOfRows);
-		listOfTextFields.add(creditsInput4);
-		creditsInput4.setPadding(new Insets(5, 5, 5, 5));
+		listOfCredits.add(creditsInput4);
 		
 		final Text gradeName = new Text("Grade:");
 		gradeName.fontProperty().setValue(new Font(15));
-		gradeName.setId("text" + numberOfRows * 11); //Assumes they won't go over 9 rows
+		gradeName.setId("text" + numberOfRows + "" + numberOfRows);
 		
-		final TextField gradeInput4 = new TextField();
-		gradeInput4.setPromptText("Ex: C-");
+		final ComboBox<String> gradeInput4 = new ComboBox<String>();
+		gradeInput4.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
 		creditsInput4.setId("gradeInput" + numberOfRows);
-		listOfTextFields.add(gradeInput4);
-		gradeInput4.setPadding(new Insets(5, 5, 5, 5));
+		listOfGrades.add(gradeInput4);
 		
 		final Button removeButton4 = new Button("-");
 		removeButton4.fontProperty().setValue(new Font(15));
-		removeButton4.setPadding(new Insets(5, 5, 5, 5));
 		removeButton4.setId("removeButton" + numberOfRows);
 		
 		removeButton4.addEventHandler(ActionEvent.ACTION, (event)-> {
-            inputGrid.getChildren().remove(creditsName);
-            inputGrid.getChildren().remove(creditsInput4);
-            inputGrid.getChildren().remove(gradeName);
-            inputGrid.getChildren().remove(gradeInput4);
-            inputGrid.getChildren().remove(removeButton4);
-            numberOfRows--;
+			int row = inputGrid.getRowIndex((Node) event.getSource());
+			Set<Node> deleteNodes = new HashSet<>(5);
+			 
+			for (Node child : inputGrid.getChildren()) {
+		        	// get index from child
+			        Integer rowIndex = GridPane.getRowIndex(child);
+		
+			        // handle null values for index=0
+			        int r = rowIndex == null ? 0 : rowIndex;
+		
+			        if (r > row) {
+			            // decrement rows for rows after the deleted row
+			            GridPane.setRowIndex(child, r-1);
+			        } else if (r == row) {
+			            // collect matching rows for deletion
+			            deleteNodes.add(child);
+			            child.setManaged(false);
+			        }
+			}
+			
+			// remove nodes from row
+			inputGrid.getChildren().removeAll(deleteNodes);
+			numberOfRows--;
         });
 		
 		inputGrid.add(creditsName, 0, numberOfRows);
 		inputGrid.setHalignment(creditsName, HPos.CENTER);
 		inputGrid.setValignment(creditsName, VPos.CENTER);
-		inputGrid.setMargin(creditsName, new Insets(5, 5, 5, 5));
-		inputGrid.setConstraints(creditsName, 0, numberOfRows);
+		inputGrid.setRowIndex(creditsName, numberOfRows);
 		
 		inputGrid.add(creditsInput4, 1, numberOfRows);
 		inputGrid.setHalignment(creditsInput4, HPos.CENTER);
 		inputGrid.setValignment(creditsInput4, VPos.CENTER);
-		inputGrid.setMargin(creditsInput4, new Insets(5, 5, 5, 5));
-		inputGrid.setConstraints(creditsInput4, 1, numberOfRows);
+		inputGrid.setRowIndex(creditsInput4, numberOfRows);
 		
 		inputGrid.add(gradeName, 2, numberOfRows);
 		inputGrid.setHalignment(gradeName, HPos.CENTER);
 		inputGrid.setValignment(gradeName, VPos.CENTER);
-		inputGrid.setMargin(gradeName, new Insets(5, 5, 5, 5));
-		inputGrid.setConstraints(gradeName, 2, numberOfRows);
+		inputGrid.setRowIndex(gradeName, numberOfRows);
 		
 		inputGrid.add(gradeInput4, 3, numberOfRows);
 		inputGrid.setHalignment(gradeInput4, HPos.CENTER);
 		inputGrid.setValignment(gradeInput4, VPos.CENTER);
-		inputGrid.setMargin(gradeInput4, new Insets(5, 5, 5, 5));
-		inputGrid.setConstraints(gradeInput4, 3, numberOfRows);
+		inputGrid.setRowIndex(gradeInput4, numberOfRows);
 		
 		inputGrid.add(removeButton4, 4, numberOfRows);
 		inputGrid.setHalignment(removeButton4, HPos.CENTER);
 		inputGrid.setValignment(removeButton4, VPos.CENTER);
-		inputGrid.setMargin(removeButton4, new Insets(5, 5, 5, 5));
-		inputGrid.setConstraints(removeButton4, 4, numberOfRows);
+		inputGrid.setRowIndex(removeButton4, numberOfRows);
 		
 	}
-	//Stephanie Whitworth: Prototype is finished
+	
+	//Written by: Emily Black and Elizabeth Nondorf
+	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void saveSemester(ActionEvent e)
-	{	
+	{
+		
 		//This will retrieve the information from the view and store it in the model database
 		model.setSemesterGPA(gpaOutput.getText());
+		
+		// If we have a gpa to graph
+		if(!(gpaOutput.getText().equals(null)))
+		{
+			series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+			graph.getData().clear(); //clears data so we dont add duplicates
+			graph.getData().addAll(series);
+			graph.setLegendVisible(false);
+			numberOfSemesters++;
+			isSaved = true;
+			
+			// Pie chart code
+			for(int i = 0; i<pieData.length; i++)
+			{
+				totalGrades = totalGrades + pieData[i];
+			}
+			
+			double[] percents = new double[5];
+			for(int k = 0; k<percents.length; k++)
+			{
+				percents[k]=(100.0*pieData[k]/totalGrades);
+			}
+			
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			
+			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
+					new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
+			pieChart.setData(pieChartData);
+			pieChart.setLegendVisible(false);
+			
+		}
 	}
 	
-	//Stephanie Whitworth: The view wis cleared automatically right now and will not work for extra rows
+
+	//Written by: Elizabeth Nondorf
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void newSemester(ActionEvent e)
-	{	
-		//clear the view
-		clear();
-		//TODO: add a dialog asking to save first
+	{
+		// save semester & clear elements if we have gpa to save
+		if(!(gpaOutput.getText().equals(null)))
+		{
+			//If we havent saved
+			if(!isSaved)
+			{
+				series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+				graph.getData().clear(); //clears data so we dont add duplicates
+				graph.getData().addAll(series);
+				graph.setLegendVisible(false);
+				numberOfSemesters++;
+				isSaved = true;
+				
+				// Pie chart code
+				for(int i = 0; i<pieData.length; i++)
+				{
+					totalGrades = totalGrades + pieData[i];
+				}
+				
+				double[] percents = new double[5];
+				for(int k = 0; k<percents.length; k++)
+				{
+					percents[k]=(100.0*pieData[k]/totalGrades);
+				}
+				
+				NumberFormat formatter = new DecimalFormat("#0.00");
+				
+				ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
+						new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
+				pieChart.setData(pieChartData);
+				pieChart.setLegendVisible(false);
+			}
+			if(isSaved)
+			{
+				// clear grid
+				for(int i = numberOfRows; i > 3; i--)
+				{
+					int row = i;
+					Set<Node> deleteNodes = new HashSet<>(5);
+					 
+					for (Node child : inputGrid.getChildren()) {
+				        	// get index from child
+					        Integer rowIndex = GridPane.getRowIndex(child);
+				
+					        // handle null values for index=0
+					        int r = rowIndex == null ? 0 : rowIndex;
+				
+					        if (r > row) {
+					            // decrement rows for rows after the deleted row
+					            GridPane.setRowIndex(child, r-1);
+					        } else if (r == row) {
+					            // collect matching rows for deletion
+					            deleteNodes.add(child);
+					            child.setManaged(false);
+					        }
+					}
+					
+					// remove nodes from row
+					inputGrid.getChildren().removeAll(deleteNodes);
+				}
+				
+				//Remove extra rows from list
+				for(int j = numberOfRows-1; j > 3; j--)
+				{
+					listOfCredits.remove(listOfCredits.get(j));
+					listOfGrades.remove(listOfGrades.get(j));
+				}
+				
+				numberOfRows = 3;
+				
+				//Clear first 3 rows
+				for(int k = 0; k < numberOfRows; k++)
+				{
+					listOfCredits.get(k).clear();
+					listOfGrades.get(k).valueProperty().set(null);
+				}	
+			}
+			
+			gpaOutput.setText("");
+			isSaved = false;
+			
+			saveButton.setDisable(true);
+			newButton.setDisable(true);
+		}
+		else
+		{
+			try {
+				throw new Exception("No GPA to save. ABORTING.");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("You have not calculated your GPA yet");
+				alert.setContentText("Please hit \"Calculate\" to calculate your GPA.");
+				alert.showAndWait();
+			}
+		}
 	}
 
-	//Written by: Emily Black (STILL WORKING ON IT)
+	//Written by: Emily Black
 	@FXML
 	private void removeRow(ActionEvent event)
 	{
 		@SuppressWarnings("static-access")
 		int row = inputGrid.getRowIndex((Node) event.getSource());
-		inputGrid.getChildren().remove("text" + row);
-		inputGrid.getChildren().remove("creditsInput" + row);
-		inputGrid.getChildren().remove("text" + row * 11);
-		inputGrid.getChildren().remove("gradeInput" + numberOfRows);
-		inputGrid.getChildren().remove("removeButton" + numberOfRows);
+		Set<Node> deleteNodes = new HashSet<>(5);
+		 
+		for (Node child : inputGrid.getChildren()) {
+	        	// get index from child
+		        Integer rowIndex = GridPane.getRowIndex(child);
+	
+		        // handle null values for index=0
+		        int r = rowIndex == null ? 0 : rowIndex;
+	
+		        if (r > row) {
+		            // decrement rows for rows after the deleted row
+		            GridPane.setRowIndex(child, r-1);
+		        } else if (r == row) {
+		            // collect matching rows for deletion
+		            deleteNodes.add(child);
+		            child.setManaged(false);
+		        }
+		}
 		
-		//setVisible(false) and setManaged(false) to each element
+		// remove nodes from row
+		inputGrid.getChildren().removeAll(deleteNodes);
 		numberOfRows--;
 	}
 	
-	@SuppressWarnings("static-access")
+	//Written by: Emily Black, Elizabeth Nondorf
+	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		saveButton.setDisable(true);
+		newButton.setDisable(true);
+		
 		// Constrains first row	
-		inputGrid.setConstraints(text1, 0, 0); // column=1 row=0
-		inputGrid.setConstraints(creditsInput1, 1, 0);
-		inputGrid.setConstraints(text11, 2, 0);
-		inputGrid.setConstraints(gradeInput1, 3, 0);
-		inputGrid.setConstraints(removeButton1, 4, 0);
+		inputGrid.setRowIndex(text0, 0);
+		inputGrid.setRowIndex(creditsInput1, 0);
+		inputGrid.setRowIndex(text00, 0);
+		inputGrid.setRowIndex(gradeInput1, 0);
+		inputGrid.setRowIndex(removeButton1, 0);
 		
 		// Constrains second row
-		inputGrid.setConstraints(text2, 0, 1);
-		inputGrid.setConstraints(creditsInput2, 1, 1);
-		inputGrid.setConstraints(text22, 2, 1);
-		inputGrid.setConstraints(gradeInput2, 3, 1);
-		inputGrid.setConstraints(removeButton2, 4, 1);
+		inputGrid.setRowIndex(text1, 1);
+		inputGrid.setRowIndex(creditsInput2, 1);
+		inputGrid.setRowIndex(text11, 1);
+		inputGrid.setRowIndex(gradeInput2, 1);
+		inputGrid.setRowIndex(removeButton2, 1);
 		
 		// Constrains third row
-		inputGrid.setConstraints(text3, 0, 2);
-		inputGrid.setConstraints(creditsInput3, 1, 2);
-		inputGrid.setConstraints(text33, 2, 2);
-		inputGrid.setConstraints(gradeInput3, 3, 2);
-		inputGrid.setConstraints(removeButton3, 4, 2);
+		inputGrid.setRowIndex(text2, 2);
+		inputGrid.setRowIndex(creditsInput3, 2);
+		inputGrid.setRowIndex(text22, 2);
+		inputGrid.setRowIndex(gradeInput3, 2);
+		inputGrid.setRowIndex(removeButton3, 2);
 		
-		listOfTextFields.add(creditsInput1);
-		listOfTextFields.add(gradeInput1);
-		listOfTextFields.add(creditsInput2);
-		listOfTextFields.add(gradeInput2);
-		listOfTextFields.add(creditsInput3);
-		listOfTextFields.add(gradeInput3);
+		listOfCredits.add(creditsInput1);
+		gradeInput1.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
+		listOfGrades.add(gradeInput1);
+		
+		listOfCredits.add(creditsInput2);
+		gradeInput2.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
+		listOfGrades.add(gradeInput2);
+		
+		listOfCredits.add(creditsInput3);
+		gradeInput3.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
+		listOfGrades.add(gradeInput3);
+		
+		creditsInput1.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
+		creditsInput2.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
+		creditsInput3.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
 	}
-	//clear the data from the view
-	//TODO: Modify for a nonstatic value
-	public void clear() {
-		creditsInput1.setText("");
-		gradeInput1.setText("");
-		creditsInput1.setText("");
-		gradeInput2.setText("");
-		creditsInput2.setText("");
-		gradeInput3.setText("");
-		creditsInput3.setText("");
+
+	//Written by: Emily Black
+	@SuppressWarnings("rawtypes")
+	private EventHandler numericalValue(int maxLength) {
+		return new EventHandler<KeyEvent>() {
+	        @Override
+	        public void handle(KeyEvent e) {
+	            TextField txt_TextField = (TextField) e.getSource();                
+	            if (txt_TextField.getText().length() >= maxLength) {                    
+	                e.consume();
+	            }
+	            if(e.getCharacter().matches("[0-9]")){ 
+	                if(txt_TextField.getText().contains(".") && e.getCharacter().matches("[.]")){
+	                    e.consume();
+	                }else if(txt_TextField.getText().length() == 0 && e.getCharacter().matches("[.]")){
+	                    e.consume(); 
+	                }
+	            }else{
+	                e.consume();
+	            }
+	        }
+	    };
 	}
 }
