@@ -80,6 +80,7 @@ public class Controller implements Initializable
 	
 	private ArrayList<TextField> listOfTextFields = new ArrayList<TextField>();
 	int numberOfRows = 3;
+	private Model model;
 
 	//Written by: Elizabeth Nondorf
 	@FXML
@@ -249,17 +250,21 @@ public class Controller implements Initializable
 		inputGrid.setConstraints(removeButton4, 4, numberOfRows);
 		
 	}
-
+	//Stephanie Whitworth: Prototype is finished
 	@FXML
 	private void saveSemester(ActionEvent e)
-	{
-		
+	{	
+		//This will retrieve the information from the view and store it in the model database
+		model.setSemesterGPA(gpaOutput.getText());
 	}
-
+	
+	//Stephanie Whitworth: The view wis cleared automatically right now and will not work for extra rows
 	@FXML
 	private void newSemester(ActionEvent e)
-	{
-		
+	{	
+		//clear the view
+		clear();
+		//TODO: add a dialog asking to save first
 	}
 
 	//Written by: Emily Black (STILL WORKING ON IT)
@@ -309,5 +314,15 @@ public class Controller implements Initializable
 		listOfTextFields.add(creditsInput3);
 		listOfTextFields.add(gradeInput3);
 	}
-
+	//clear the data from the view
+	//TODO: Modify for a nonstatic value
+	public void clear() {
+		creditsInput1.setText("");
+		gradeInput1.setText("");
+		creditsInput1.setText("");
+		gradeInput2.setText("");
+		creditsInput2.setText("");
+		gradeInput3.setText("");
+		creditsInput3.setText("");
+	}
 }
