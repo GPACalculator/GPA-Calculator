@@ -17,18 +17,14 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
@@ -329,7 +325,7 @@ public class Controller implements Initializable
 			numberOfSemesters++;
 			isSaved = true;
 			
-			
+			// Pie chart code
 			for(int i = 0; i<pieData.length; i++)
 			{
 				totalGrades = totalGrades + pieData[i];
@@ -369,6 +365,25 @@ public class Controller implements Initializable
 				graph.setLegendVisible(false);
 				numberOfSemesters++;
 				isSaved = true;
+				
+				// Pie chart code
+				for(int i = 0; i<pieData.length; i++)
+				{
+					totalGrades = totalGrades + pieData[i];
+				}
+				
+				double[] percents = new double[5];
+				for(int k = 0; k<percents.length; k++)
+				{
+					percents[k]=(100.0*pieData[k]/totalGrades);
+				}
+				
+				NumberFormat formatter = new DecimalFormat("#0.00");
+				
+				ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
+						new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
+				pieChart.setData(pieChartData);
+				pieChart.setLegendVisible(false);
 			}
 			if(isSaved)
 			{
