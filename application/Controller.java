@@ -5,15 +5,12 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.PieChart;
@@ -32,7 +29,7 @@ import java.util.HashSet;
 
 /** 
  * Controller for GPA-Calculator
- * Last modified: 4/06/17
+ * Last modified: 4/26/17
  * @author GPA-Calculator Team
  * This program calculates your GPA based on credits/grade. Also has graph/chart feature. 
  */
@@ -87,8 +84,6 @@ public class Controller implements Initializable
 	@FXML
 	private PieChart pieChart;
 	
-	private ArrayList<TextField> listOfTextFields = new ArrayList<TextField>();
-	private Model model;
 	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
 	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
@@ -285,42 +280,20 @@ public class Controller implements Initializable
 			numberOfRows--;
         });
 		
+		
 		inputGrid.add(creditsName, 0, numberOfRows);
-		inputGrid.setHalignment(creditsName, HPos.CENTER);
-		inputGrid.setValignment(creditsName, VPos.CENTER);
-		inputGrid.setRowIndex(creditsName, numberOfRows);
-		
 		inputGrid.add(creditsInput4, 1, numberOfRows);
-		inputGrid.setHalignment(creditsInput4, HPos.CENTER);
-		inputGrid.setValignment(creditsInput4, VPos.CENTER);
-		inputGrid.setRowIndex(creditsInput4, numberOfRows);
-		
 		inputGrid.add(gradeName, 2, numberOfRows);
-		inputGrid.setHalignment(gradeName, HPos.CENTER);
-		inputGrid.setValignment(gradeName, VPos.CENTER);
-		inputGrid.setRowIndex(gradeName, numberOfRows);
-		
 		inputGrid.add(gradeInput4, 3, numberOfRows);
-		inputGrid.setHalignment(gradeInput4, HPos.CENTER);
-		inputGrid.setValignment(gradeInput4, VPos.CENTER);
-		inputGrid.setRowIndex(gradeInput4, numberOfRows);
-		
 		inputGrid.add(removeButton4, 4, numberOfRows);
-		inputGrid.setHalignment(removeButton4, HPos.CENTER);
-		inputGrid.setValignment(removeButton4, VPos.CENTER);
-		inputGrid.setRowIndex(removeButton4, numberOfRows);
 		
 	}
-	
+
 	//Written by: Emily Black and Elizabeth Nondorf
 	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
-		
-		//This will retrieve the information from the view and store it in the model database
-		model.setSemesterGPA(gpaOutput.getText());
-		
 		// If we have a gpa to graph
 		if(!(gpaOutput.getText().equals(null)))
 		{
@@ -456,6 +429,7 @@ public class Controller implements Initializable
 				alert.showAndWait();
 			}
 		}
+		
 	}
 
 	//Written by: Emily Black
@@ -489,33 +463,12 @@ public class Controller implements Initializable
 	}
 	
 	//Written by: Emily Black, Elizabeth Nondorf
-	@SuppressWarnings({ "unchecked", "static-access" })
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		saveButton.setDisable(true);
 		newButton.setDisable(true);
-		
-		// Constrains first row	
-		inputGrid.setRowIndex(text0, 0);
-		inputGrid.setRowIndex(creditsInput1, 0);
-		inputGrid.setRowIndex(text00, 0);
-		inputGrid.setRowIndex(gradeInput1, 0);
-		inputGrid.setRowIndex(removeButton1, 0);
-		
-		// Constrains second row
-		inputGrid.setRowIndex(text1, 1);
-		inputGrid.setRowIndex(creditsInput2, 1);
-		inputGrid.setRowIndex(text11, 1);
-		inputGrid.setRowIndex(gradeInput2, 1);
-		inputGrid.setRowIndex(removeButton2, 1);
-		
-		// Constrains third row
-		inputGrid.setRowIndex(text2, 2);
-		inputGrid.setRowIndex(creditsInput3, 2);
-		inputGrid.setRowIndex(text22, 2);
-		inputGrid.setRowIndex(gradeInput3, 2);
-		inputGrid.setRowIndex(removeButton3, 2);
 		
 		listOfCredits.add(creditsInput1);
 		gradeInput1.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
@@ -556,4 +509,5 @@ public class Controller implements Initializable
 	        }
 	    };
 	}
+
 }

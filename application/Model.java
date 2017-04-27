@@ -26,4 +26,5 @@ public class Model {
 		//place it in the hashmap
 		semesters.put(key, gpa);
 	};
+	
 }
