@@ -116,9 +116,9 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <ComboBox fx:id="gradeInput1" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                                    <ComboBox fx:id="gradeInput2" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                                    <ComboBox fx:id="gradeInput3" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                                    <ComboBox fx:id="gradeInput1" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                    <ComboBox fx:id="gradeInput2" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ComboBox fx:id="gradeInput3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />

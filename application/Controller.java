@@ -1,12 +1,8 @@
 package application;
 
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import java.util.Set;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -84,17 +79,13 @@ public class Controller implements Initializable
 	@FXML
 	private PieChart pieChart;
 	
-	private XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
 	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
 	int numberOfRows = 3; 
 	int numberOfSemesters = 1; 
 	boolean isSaved = false;
-	private double totalCreditPoints = 0.0;
-	private double totalGradePoints = 0.0;
-
-	private int[] pieData = new int[5];
-	private int totalGrades = 0;
+	
+	public final Model model = new Model();
 	
 	//Written by: Elizabeth Nondorf
 	@FXML
@@ -122,103 +113,16 @@ public class Controller implements Initializable
 		saveButton.setDisable(false);
 		
 		newButton.setDisable(false);
+		/*Gives the calculator all of the credits*/
+		model.setCredits(listOfCredits);
+		/*Gvies the calculator all of the values from the grades*/
+		model.setGradeList(listOfGrades);
+		/*Calculate the gpa after error checking*/
+		model.calculateGPA();
 		
-		double numberSemesterHours = 0.0;
-		
-		double totalClassPoints = 0.0;
-		
-		double gradeScaled=0.0;
-		
-		int classHours = 0;
-		
-		String grade = "";
-		
-		for(int i = 0; i < numberOfRows; i++)
-		{
-			//get the row's class hours
-			classHours = Integer.parseInt(listOfCredits.get(i).getText());
-			
-			numberSemesterHours += classHours;
-			
-			//get the row's grade
-			grade = (listOfGrades.get(i).getValue()).toString();
-			
-			if(grade.equals("A+"))
-			{
-				gradeScaled = 4.0;
-				pieData[0] = pieData[0]+1;
-			}
-			else if(grade.equals("A"))
-			{
-				gradeScaled = 4.0;
-				pieData[0] = pieData[0]+1;
-			}
-			else if(grade.equals("A-"))
-			{
-				gradeScaled = 3.7;
-				pieData[0] = pieData[0]+1;
-			}
-			else if(grade.equals("B+"))
-			{
-				gradeScaled = 3.3;
-				pieData[1] = pieData[1]+1;
-			}
-			else if(grade.equals("B"))
-			{
-				gradeScaled = 3.0;
-				pieData[1] = pieData[1]+1;
-			}
-			else if(grade.equals("B-"))
-			{
-				gradeScaled = 2.7;
-				pieData[1] = pieData[1]+1;
-			}
-			else if(grade.equals("C+"))
-			{
-				gradeScaled = 2.3;
-				pieData[2] = pieData[2]+1;
-			}
-			else if(grade.equals("C"))
-			{
-				gradeScaled = 2.0;
-				pieData[2] = pieData[2]+1;
-			}
-			else if(grade.equals("C-"))
-			{
-				gradeScaled = 1.7;
-				pieData[2] = pieData[2]+1;
-			}
-			else if(grade.equals("D+"))
-			{
-				gradeScaled = 1.3;
-				pieData[3] = pieData[3]+1;
-			}
-			else if(grade.equals("D"))
-			{
-				gradeScaled = 1.0;
-				pieData[3] = pieData[3]+1;
-			}
-			else if(grade.equals("D-"))
-			{
-				gradeScaled = 0.7;
-				pieData[3] = pieData[3]+1;
-			}
-			else if(grade.equals("F"))
-			{
-				gradeScaled = 0.0;
-				pieData[4] = pieData[4]+1;
-			}
-			
-			totalClassPoints += (classHours*gradeScaled);
-		}
-		
-		//Math for cumulativeGPA
-		totalGradePoints += totalClassPoints;
-		totalCreditPoints += numberSemesterHours;
-		cumGPAOutput.setText(Double.toString(Math.round((totalGradePoints/totalCreditPoints) * 100.0) / 100.0));
-		
-		//Current semesters GPA
-		gpaOutput.setText(Double.toString(Math.round(totalClassPoints/numberSemesterHours * 100.0) / 100.0));
+		/*Makes the data visible*/
+		gpaOutput.setText(model.getCurrGpa() + "");
+		cumGPAOutput.setText(model.getCumGpa() + "");
 	}
 
 	//Written by: Emily Black
@@ -289,45 +193,26 @@ public class Controller implements Initializable
 		
 	}
 
-	//Written by: Emily Black and Elizabeth Nondorf
-	@SuppressWarnings({ "unchecked" })
+	//Written by: Emily Black and Elizabeth Nondorf and Stephanie Whitworth
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
-		// If we have a gpa to graph
+		//Check for input
 		if(!(gpaOutput.getText().equals(null)))
 		{
-			series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
-			graph.getData().clear(); //clears data so we dont add duplicates
-			graph.getData().addAll(series);
-			graph.setLegendVisible(false);
-			numberOfSemesters++;
-			isSaved = true;
-			
-			// Pie chart code
-			for(int i = 0; i<pieData.length; i++)
-			{
-				totalGrades = totalGrades + pieData[i];
-			}
-			
-			double[] percents = new double[5];
-			for(int k = 0; k<percents.length; k++)
-			{
-				percents[k]=(100.0*pieData[k]/totalGrades);
-			}
-			
-			NumberFormat formatter = new DecimalFormat("#0.00");
-			
-			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
-					new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
-			pieChart.setData(pieChartData);
-			pieChart.setLegendVisible(false);
-			
+			//set the series
+			model.setSeries(Double.parseDouble(gpaOutput.getText()));
+			//increment the number of semesters
+			model.incrementSemesters();
+			//set the data
+			pieChart.setData(model.createPieData());
+			//make the chart visible
+			pieChart.setLegendVisible(false);	
 		}
 	}
 	
 
-	//Written by: Elizabeth Nondorf
+	//Written by: Elizabeth Nondorf and Stephanie Whitworth
 	@SuppressWarnings("unchecked")
 	@FXML
 	private void newSemester(ActionEvent e)
@@ -336,35 +221,24 @@ public class Controller implements Initializable
 		if(!(gpaOutput.getText().equals(null)))
 		{
 			//If we havent saved
-			if(!isSaved)
+			if(model.isSaved() == false)
 			{
-				series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, Double.parseDouble(gpaOutput.getText())));
+				//create the series data
+				model.setSeries(Double.parseDouble(gpaOutput.getText()));
+				
+				//increment the number of semesters
+				model.incrementSemesters();
+				
 				graph.getData().clear(); //clears data so we dont add duplicates
-				graph.getData().addAll(series);
+				graph.getData().addAll(model.getSeries());
 				graph.setLegendVisible(false);
-				numberOfSemesters++;
-				isSaved = true;
+				//we let model know that it is saved
+				model.setSaved(true);
 				
-				// Pie chart code
-				for(int i = 0; i<pieData.length; i++)
-				{
-					totalGrades = totalGrades + pieData[i];
-				}
-				
-				double[] percents = new double[5];
-				for(int k = 0; k<percents.length; k++)
-				{
-					percents[k]=(100.0*pieData[k]/totalGrades);
-				}
-				
-				NumberFormat formatter = new DecimalFormat("#0.00");
-				
-				ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new PieChart.Data("A  "+formatter.format(percents[0])+"%", pieData[0]), new PieChart.Data("B  "+formatter.format(percents[1])+"%", pieData[1]),
-						new PieChart.Data("C  "+formatter.format(percents[2])+"%", pieData[2]), new PieChart.Data("D  "+formatter.format(percents[3])+"%", pieData[3]), new PieChart.Data("F  "+formatter.format(percents[4])+"%", pieData[4]));
-				pieChart.setData(pieChartData);
+				pieChart.setData(model.createPieData());
 				pieChart.setLegendVisible(false);
 			}
-			if(isSaved)
+			if(model.isSaved() == true)
 			{
 				// clear grid
 				for(int i = numberOfRows; i > 3; i--)
@@ -407,11 +281,14 @@ public class Controller implements Initializable
 				{
 					listOfCredits.get(k).clear();
 					listOfGrades.get(k).valueProperty().set(null);
-				}	
+				}
+				
+				//Clear the data in the model
+				model.clearData();
 			}
 			
 			gpaOutput.setText("");
-			isSaved = false;
+			model.setSaved(false);
 			
 			saveButton.setDisable(true);
 			newButton.setDisable(true);
@@ -430,7 +307,7 @@ public class Controller implements Initializable
 			}
 		}
 		
-	}
+}
 
 	//Written by: Emily Black
 	@FXML
@@ -462,7 +339,7 @@ public class Controller implements Initializable
 		numberOfRows--;
 	}
 	
-	//Written by: Emily Black, Elizabeth Nondorf
+	//Written by: Emily Black and Elizabeth Nondorf
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
