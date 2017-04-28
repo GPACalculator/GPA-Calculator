@@ -5,3 +5,12 @@ Program that calculates your GPA based on credits/grade. Also has graph/chart fe
 
 
 ![Alt text](/screenshots/Screenshot_2.png?raw=true "About")
+
+
+![Alt text](/screenshots/Screenshot_3.png?raw=true "About")
+
+
+![Alt text](/screenshots/Screenshot_4.png?raw=true "About")
+
+
+![Alt text](/screenshots/Screenshot_5.png?raw=true "About")
