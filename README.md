@@ -4,9 +4,6 @@ GPA Calculator is a program that calculates your GPA based on credits/grade. You
 ![Alt text](/screenshots/Screenshot_1.png?raw=true "Home")
 
 
-![Alt text](/screenshots/Screenshot_2.png?raw=true "About")
-
-
 ![Alt text](/screenshots/Screenshot_3.png?raw=true "About")
 
 
@@ -14,3 +11,6 @@ GPA Calculator is a program that calculates your GPA based on credits/grade. You
 
 
 ![Alt text](/screenshots/Screenshot_5.png?raw=true "About")
+
+
+![Alt text](/screenshots/Screenshot_2.png?raw=true "About")
