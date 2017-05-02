@@ -178,6 +178,7 @@ public class Controller implements Initializable
 	}
 
 	//Written by: Emily Black and Elizabeth Nondorf and Stephanie Whitworth
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void saveSemester(ActionEvent e)
 	{
@@ -193,13 +194,19 @@ public class Controller implements Initializable
 		}
 		else
 		{
-			//set the series
+			//create the series data
 			model.setSeries(Double.parseDouble(gpaOutput.getText()));
+			
 			//increment the number of semesters
 			model.incrementSemesters();
-			//set the data
+			
+			graph.getData().clear(); //clears data so we dont add duplicates
+			graph.getData().addAll(model.getSeries());
+			graph.setLegendVisible(false);
+			//we let model know that it is saved
+			model.setSaved(true);
+			
 			pieChart.setData(model.createPieData());
-			//make the chart visible
 			pieChart.setLegendVisible(false);	
 		}
 	}
