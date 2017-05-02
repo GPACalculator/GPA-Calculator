@@ -1,6 +1,8 @@
 # GPA-Calculator
 GPA Calculator is a program that calculates your GPA based on credits/grade. You can save semesters and view either the grade distribution of all semesters or an overall graph of your gpa. GPA Calculator also has a letter grade chart using a 4.0 scale. This program was written in Java using the JavaFx library, and implements the MVC structure. 
 
+The source code is available in this repo under the MIT license. There is also an executable jar file if you instead want to skip the source code.
+
 ![Alt text](/screenshots/Screenshot_1.png?raw=true "Home")
 
 
