@@ -328,6 +328,10 @@ public class Controller implements Initializable
 		listOfGrades.remove(row);
 		model.setGradeList(listOfGrades);
 		listOfCredits.remove(row);
+		for(int i = 0; i < listOfCredits.size(); i++)
+		{
+			System.out.println(listOfCredits.get(i).getText());
+		}
 		model.setCredits(listOfCredits);
     }
 	

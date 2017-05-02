@@ -186,9 +186,19 @@ public class Model {
 	public void setCredits(ArrayList<TextField> listOfCredits) 
 	{
 		this.listOfCredits.clear();
-		for (int i = 0; i < listOfCredits.size(); i++) {
-			//convert each string to an integer
-			this.listOfCredits.add(Integer.parseInt(listOfCredits.get(i).getText()));
+		if(listOfCredits.isEmpty())
+		{
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < listOfCredits.size(); i++) {
+				if(!(listOfCredits.get(i).getText().equals("")) && !(listOfCredits.get(i).getText() == null))
+				{
+					//convert each string to an integer
+					this.listOfCredits.add(Integer.parseInt(listOfCredits.get(i).getText()));
+				}
+			}
 		}
 		return;
 	}
