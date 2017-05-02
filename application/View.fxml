@@ -239,7 +239,7 @@
             <Tooltip text="GPA Calculator" />
          </tooltip>
     </Tab>
-    <Tab text="Graph">
+    <Tab text="Area Graph">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0">
              <children>
