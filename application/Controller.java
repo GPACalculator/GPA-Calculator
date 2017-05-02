@@ -35,33 +35,33 @@ public class Controller implements Initializable
 	@FXML
 	private Text text0;
 	@FXML
-	private TextField creditsInput1;
+	private TextField creditsInput0;
 	@FXML
 	private Text text00;
+	@FXML
+	private ComboBox<String> gradeInput0;
+	@FXML
+	private Button removeButton0;
+	@FXML
+	private Text text1;
+	@FXML
+	private TextField creditsInput1;
+	@FXML
+	private Text text11;
 	@FXML
 	private ComboBox<String> gradeInput1;
 	@FXML
 	private Button removeButton1;
 	@FXML
-	private Text text1;
+	private Text text2;
 	@FXML
 	private TextField creditsInput2;
 	@FXML
-	private Text text11;
+	private Text text22;
 	@FXML
 	private ComboBox<String> gradeInput2;
 	@FXML
 	private Button removeButton2;
-	@FXML
-	private Text text2;
-	@FXML
-	private TextField creditsInput3;
-	@FXML
-	private Text text22;
-	@FXML
-	private ComboBox<String> gradeInput3;
-	@FXML
-	private Button removeButton3;
 	@FXML
 	private Text gpaOutput;
 	@FXML
@@ -79,44 +79,52 @@ public class Controller implements Initializable
 	@FXML
 	private PieChart pieChart;
 	
+	private final Model model = new Model();
+	private Text creditsName;
+	private TextField creditsInput;
+	private Text gradeName;
+	private ComboBox<String> gradeInput;
+	private Button removeButton;
 	private ArrayList<TextField> listOfCredits = new ArrayList<TextField>();
 	private ArrayList<ComboBox<String>> listOfGrades = new ArrayList<ComboBox<String>>();
-	int numberOfRows = 3; 
-	int numberOfSemesters = 1; 
-	boolean isSaved = false;
 	
-	public final Model model = new Model();
-	
-	//Written by: Elizabeth Nondorf
+	//Written by: Elizabeth Nondorf and Emily Black
 	@FXML
 	private void calculateGPA(ActionEvent e)
-	{
-		//If any input fields are empty
-		for(int i = 0; i < inputGrid.getChildren().size(); i++)
+	{	
+		
+		//If we have no fields
+		if(model.getNumOfRows() == 0)
 		{
-			if(inputGrid.getChildren().get(i) == null)
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("ERROR: NO FIELD(S) FOUND.");
+			alert.setContentText("Please make sure you have at least one row filled out before calculating your GPA.");
+			alert.showAndWait();
+			return;
+		}
+		
+		//If any input fields are empty
+		for(int i = 0; i < model.getNumOfRows(); i++)
+		{
+			if(listOfCredits.get(i).getText().equals("") || listOfGrades.get(i).getValue() == null)
 			{
-				try {
-					
-					throw new Exception("Field(s) empty. ABORTING.");
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error");
-					alert.setHeaderText("You have left a field empty");
-					alert.setContentText("Please make sure you have completely filled out the form before calculating your GPA.");
-					alert.showAndWait();
-				}
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("ERROR: EMPTY FIELD(S).");
+				alert.setContentText("Please make sure you have completely filled out the form before calculating your GPA.");
+				alert.showAndWait();
+				return;
 			}
 		}
 		
 		saveButton.setDisable(false);
-		
 		newButton.setDisable(false);
 		/*Gives the calculator all of the credits*/
 		model.setCredits(listOfCredits);
 		/*Gvies the calculator all of the values from the grades*/
 		model.setGradeList(listOfGrades);
+		
 		/*Calculate the gpa after error checking*/
 		model.calculateGPA();
 		
@@ -126,71 +134,47 @@ public class Controller implements Initializable
 	}
 
 	//Written by: Emily Black
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@FXML
 	private void addRow(ActionEvent e)
 	{
 		saveButton.setDisable(true);
-		
 		newButton.setDisable(true);
-		numberOfRows++;
 		
-		final Text creditsName = new Text("Credits:");
+		creditsName = new Text("Credits:");
 		creditsName.fontProperty().setValue(new Font(15));
-		creditsName.setId("text" + numberOfRows);
+		creditsName.setId("text" + model.getNumOfRows());
 		
-		final TextField creditsInput4 = new TextField();
-		creditsInput4.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
-		creditsInput4.setPromptText("Ex: 3");
-		creditsInput4.setId("creditsInput" + numberOfRows);
-		listOfCredits.add(creditsInput4);
+		creditsInput = new TextField();
+		creditsInput.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
+		creditsInput.setPromptText("Ex: 3");
+		listOfCredits.add(creditsInput);
+		creditsInput.setId("creditsInput" + model.getNumOfRows());
 		
-		final Text gradeName = new Text("Grade:");
+		gradeName = new Text("Grade:");
 		gradeName.fontProperty().setValue(new Font(15));
-		gradeName.setId("text" + numberOfRows + "" + numberOfRows);
+		gradeName.setId("text" + model.getNumOfRows() + "" + model.getNumOfRows());
 		
-		final ComboBox<String> gradeInput4 = new ComboBox<String>();
-		gradeInput4.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
-		creditsInput4.setId("gradeInput" + numberOfRows);
-		listOfGrades.add(gradeInput4);
+		gradeInput = new ComboBox<String>();
+		gradeInput.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
+		listOfGrades.add(gradeInput);
+		gradeInput.setId("gradeInput" + model.getNumOfRows());
 		
-		final Button removeButton4 = new Button("-");
-		removeButton4.fontProperty().setValue(new Font(15));
-		removeButton4.setId("removeButton" + numberOfRows);
+		removeButton = new Button("-");
+		removeButton.fontProperty().setValue(new Font(15));
+		removeButton.setId("removeButton" + model.getNumOfRows());
 		
-		removeButton4.addEventHandler(ActionEvent.ACTION, (event)-> {
-			int row = inputGrid.getRowIndex((Node) event.getSource());
-			Set<Node> deleteNodes = new HashSet<>(5);
-			 
-			for (Node child : inputGrid.getChildren()) {
-		        	// get index from child
-			        Integer rowIndex = GridPane.getRowIndex(child);
+		removeButton.setOnAction(event1 -> {
+		    removeRow(event1);
+		});
 		
-			        // handle null values for index=0
-			        int r = rowIndex == null ? 0 : rowIndex;
+		inputGrid.add(creditsName, 0, model.getNumOfRows());
+		inputGrid.add(creditsInput, 1, model.getNumOfRows());
+		inputGrid.add(gradeName, 2, model.getNumOfRows());
+		inputGrid.add(gradeInput, 3, model.getNumOfRows());
+		inputGrid.add(removeButton, 4, model.getNumOfRows());
 		
-			        if (r > row) {
-			            // decrement rows for rows after the deleted row
-			            GridPane.setRowIndex(child, r-1);
-			        } else if (r == row) {
-			            // collect matching rows for deletion
-			            deleteNodes.add(child);
-			            child.setManaged(false);
-			        }
-			}
-			
-			// remove nodes from row
-			inputGrid.getChildren().removeAll(deleteNodes);
-			numberOfRows--;
-        });
-		
-		
-		inputGrid.add(creditsName, 0, numberOfRows);
-		inputGrid.add(creditsInput4, 1, numberOfRows);
-		inputGrid.add(gradeName, 2, numberOfRows);
-		inputGrid.add(gradeInput4, 3, numberOfRows);
-		inputGrid.add(removeButton4, 4, numberOfRows);
-		
+		model.setNumOfRows(model.getNumOfRows()+1);
 	}
 
 	//Written by: Emily Black and Elizabeth Nondorf and Stephanie Whitworth
@@ -198,7 +182,16 @@ public class Controller implements Initializable
 	private void saveSemester(ActionEvent e)
 	{
 		//Check for input
-		if(!(gpaOutput.getText().equals(null)))
+		if(gpaOutput.getText() == null)
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("ERROR: EMPTY GPA");
+			alert.setContentText("Please make sure you calculate your GPA before saving your semester.");
+			alert.showAndWait();
+			return;
+		}
+		else
 		{
 			//set the series
 			model.setSeries(Double.parseDouble(gpaOutput.getText()));
@@ -211,14 +204,22 @@ public class Controller implements Initializable
 		}
 	}
 	
-
 	//Written by: Elizabeth Nondorf and Stephanie Whitworth
 	@SuppressWarnings("unchecked")
 	@FXML
 	private void newSemester(ActionEvent e)
 	{
 		// save semester & clear elements if we have gpa to save
-		if(!(gpaOutput.getText().equals(null)))
+		if(gpaOutput.getText() == null)
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("ERROR: EMPTY GPA");
+			alert.setContentText("Please make sure you calculate your GPA before saving your semester.");
+			alert.showAndWait();
+			return;
+		}
+		else
 		{
 			//If we havent saved
 			if(model.isSaved() == false)
@@ -238,10 +239,11 @@ public class Controller implements Initializable
 				pieChart.setData(model.createPieData());
 				pieChart.setLegendVisible(false);
 			}
+			//If we have saved
 			if(model.isSaved() == true)
 			{
 				// clear grid
-				for(int i = numberOfRows; i > 3; i--)
+				for(int i = model.getNumOfRows(); i > 2; i--)
 				{
 					int row = i;
 					Set<Node> deleteNodes = new HashSet<>(5);
@@ -268,16 +270,16 @@ public class Controller implements Initializable
 				}
 				
 				//Remove extra rows from list
-				for(int j = numberOfRows-1; j > 3; j--)
+				for(int j = model.getNumOfRows()-1; j > 3; j--)
 				{
 					listOfCredits.remove(listOfCredits.get(j));
 					listOfGrades.remove(listOfGrades.get(j));
 				}
 				
-				numberOfRows = 3;
+				model.setNumOfRows(3);
 				
 				//Clear first 3 rows
-				for(int k = 0; k < numberOfRows; k++)
+				for(int k = 0; k < model.getNumOfRows(); k++)
 				{
 					listOfCredits.get(k).clear();
 					listOfGrades.get(k).valueProperty().set(null);
@@ -292,22 +294,8 @@ public class Controller implements Initializable
 			
 			saveButton.setDisable(true);
 			newButton.setDisable(true);
-		}
-		else
-		{
-			try {
-				throw new Exception("No GPA to save. ABORTING.");
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("You have not calculated your GPA yet");
-				alert.setContentText("Please hit \"Calculate\" to calculate your GPA.");
-				alert.showAndWait();
-			}
-		}
-		
-}
+		}	
+	}
 
 	//Written by: Emily Black
 	@FXML
@@ -315,7 +303,7 @@ public class Controller implements Initializable
 	{
 		@SuppressWarnings("static-access")
 		int row = inputGrid.getRowIndex((Node) event.getSource());
-		Set<Node> deleteNodes = new HashSet<>(5);
+		ArrayList<Node> deleteNodes = new ArrayList<Node>(5);
 		 
 		for (Node child : inputGrid.getChildren()) {
 	        	// get index from child
@@ -334,10 +322,14 @@ public class Controller implements Initializable
 		        }
 		}
 		
-		// remove nodes from row
 		inputGrid.getChildren().removeAll(deleteNodes);
-		numberOfRows--;
-	}
+		model.setNumOfRows(model.getNumOfRows()-1);
+		
+		listOfGrades.remove(row);
+		model.setGradeList(listOfGrades);
+		listOfCredits.remove(row);
+		model.setCredits(listOfCredits);
+    }
 	
 	//Written by: Emily Black and Elizabeth Nondorf
 	@SuppressWarnings({ "unchecked" })
@@ -347,6 +339,10 @@ public class Controller implements Initializable
 		saveButton.setDisable(true);
 		newButton.setDisable(true);
 		
+		listOfCredits.add(creditsInput0);
+		gradeInput0.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
+		listOfGrades.add(gradeInput0);
+		
 		listOfCredits.add(creditsInput1);
 		gradeInput1.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
 		listOfGrades.add(gradeInput1);
@@ -355,18 +351,15 @@ public class Controller implements Initializable
 		gradeInput2.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
 		listOfGrades.add(gradeInput2);
 		
-		listOfCredits.add(creditsInput3);
-		gradeInput3.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F");
-		listOfGrades.add(gradeInput3);
-		
+		creditsInput0.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
 		creditsInput1.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
 		creditsInput2.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
-		creditsInput3.addEventFilter(KeyEvent.KEY_TYPED , numericalValue(2));
 	}
 
 	//Written by: Emily Black
 	@SuppressWarnings("rawtypes")
-	private EventHandler numericalValue(int maxLength) {
+	private EventHandler numericalValue(int maxLength) 
+	{
 		return new EventHandler<KeyEvent>() {
 	        @Override
 	        public void handle(KeyEvent e) {

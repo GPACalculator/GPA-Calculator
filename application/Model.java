@@ -140,20 +140,22 @@ public class Model {
 		setCurrGPA(Math.round(totalClassPoints/numberSemesterHours * 100.0) / 100.0);
 	}
 	
-	//Written by: Stephanie Whitworth
 	//Creates the series used in the pie chart. This is good because we can call this over and over
-	public void setSeries(double gpaType) {
+	public void setSeries(double gpaType) 
+	{
 		//we need to create a series with the gpa output
 		series.getData().add(new XYChart.Data<String, Double>("Semester " + numberOfSemesters, gpaType));
 		return;
 	}
 	
-	public Series<String,Double> getSeries() {
+	public Series<String,Double> getSeries() 
+	{
 		return series;
 	}
 	
 	//Written by: Elizabeth Nandorf and Stephanie whitworth
-	public ObservableList<Data> createPieData() {
+	public ObservableList<Data> createPieData() 
+	{
 		//set the data as saved to a series
 		isSaved = true;
 		
@@ -180,9 +182,10 @@ public class Model {
 		return pieChartData;
 	}
 	
-	//Written by: Stephanie Whitworth
 	/*Makes the list of credits*/
-	public void setCredits(ArrayList<TextField> listOfCredits) {
+	public void setCredits(ArrayList<TextField> listOfCredits) 
+	{
+		this.listOfCredits.clear();
 		for (int i = 0; i < listOfCredits.size(); i++) {
 			//convert each string to an integer
 			this.listOfCredits.add(Integer.parseInt(listOfCredits.get(i).getText()));
@@ -190,55 +193,59 @@ public class Model {
 		return;
 	}
 	
-	public void setGradeList(ArrayList<ComboBox<String>> listOfGrades){
+	public void setGradeList(ArrayList<ComboBox<String>> listOfGrades)
+	{
+		this.listOfGrades.clear();
 		for(int i = 0; i < listOfGrades.size(); i++) {
 			this.listOfGrades.add(listOfGrades.get(i).getValue());
 		}
 	}
 	
-	public void incrementSemesters() {
+	public void incrementSemesters() 
+	{
 		this.numberOfSemesters++;
 		return;
 	}
 	
-	//Written by: Stephanie Whitworth
-	public void removeRowData(int index) {
+	public void removeRowData(int index) 
+	{
 		listOfCredits.remove(listOfCredits.get(index));
 		listOfGrades.remove(listOfGrades.get(index));
 		return;
 	}
 	
-	//Written bt:Stephanie Whitworth
-	public void clearData(){
+	public void clearData()
+	{
 		listOfCredits.clear();
 		listOfGrades.clear();
 		return;
 	}
 	
-	//Written by:Stephanie Whitworth
-	/*Sets the cumulative gpa*/
-	public void setCumGpa(double cumGpa) {
+	public void setCumGpa(double cumGpa) 
+	{
 		this.cumGpa = cumGpa;
 		return;
 	}
 	
-	//Written by:Stephanie Whitworth
-	/*Sets the current gpa*/
-	public void setCurrGPA(double currGpa) {
+	public void setCurrGPA(double currGpa) 
+	{
 		this.currGpa = currGpa;
 		return;
 	}
 	
-	//Written by:Stephanie Whitworth
-	/*Sets the save flag*/
-	public void setSaved(boolean flag) {
+	public void setNumOfRows(int numOfRows)
+	{
+		numberOfRows = numOfRows;
+	}
+	
+	public void setSaved(boolean flag) 
+	{
 		this.isSaved = flag;
 		return;
 	}
 	
-	//Written by: Stephanie Whitworth
-	/*Sets the save value*/
-	public boolean isSaved() {
+	public boolean isSaved() 
+	{
 		if (this.isSaved == true) {
 			return true;
 		}
@@ -246,13 +253,18 @@ public class Model {
 		return false;
 	}
 	
-	/*Getter that returns the current gpa for the semester*/
-	public double getCurrGpa() {
+	public double getCurrGpa() 
+	{
 		return currGpa;
 	}
 	
-	/*Getter that returns the cumulative gpa*/
-	public double getCumGpa() {
+	public int getNumOfRows()
+	{
+		return numberOfRows;
+	}
+	
+	public double getCumGpa() 
+	{
 		return cumGpa;
 	}
 }

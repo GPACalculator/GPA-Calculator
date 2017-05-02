@@ -20,7 +20,7 @@
                            <children>
                               <GridPane fx:id="inputGrid" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Text fx:id="text0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:">
+                                    <Text fx:id="text0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.rowIndex="0" GridPane.columnIndex="0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -28,12 +28,12 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <TextField fx:id="creditsInput1" promptText="Ex: 3" GridPane.columnIndex="1">
+                                    <TextField fx:id="creditsInput0" promptText="Ex: 3" GridPane.rowIndex="0" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Text fx:id="text00" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2">
+                                    <Text fx:id="text00" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.rowIndex="0" GridPane.columnIndex="2">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -41,7 +41,7 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <Button fx:id="removeButton1" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4">
+                                    <Button fx:id="removeButton0" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.rowIndex="0" GridPane.columnIndex="4">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -52,7 +52,7 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <Text fx:id="text1" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.rowIndex="1">
+                                    <Text fx:id="text1" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.rowIndex="1" GridPane.columnIndex="0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -60,12 +60,12 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <TextField fx:id="creditsInput2" promptText="Ex: 5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <TextField fx:id="creditsInput1" promptText="Ex: 5" GridPane.rowIndex="1" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Text fx:id="text11" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <Text fx:id="text11" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.rowIndex="1" GridPane.columnIndex="2">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -73,7 +73,7 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <Button fx:id="removeButton2" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                    <Button fx:id="removeButton1" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.rowIndex="1"  GridPane.columnIndex="4">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -84,7 +84,7 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <Text fx:id="text2" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.rowIndex="2">
+                                    <Text fx:id="text2" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits:" GridPane.rowIndex="2" GridPane.columnIndex="0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -92,12 +92,12 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <TextField fx:id="creditsInput3" promptText="Ex: 2" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <TextField fx:id="creditsInput2" promptText="Ex: 2" GridPane.rowIndex="2" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Text fx:id="text22" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                    <Text fx:id="text22" strokeType="OUTSIDE" strokeWidth="0.0" text="Grade:" GridPane.rowIndex="2" GridPane.columnIndex="2">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -105,7 +105,7 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Text>
-                                    <Button fx:id="removeButton3" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                    <Button fx:id="removeButton2" mnemonicParsing="false" onAction="#removeRow" text="-" GridPane.rowIndex="2" GridPane.columnIndex="4">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -116,9 +116,9 @@
                                           <Tooltip text="Remove this class." />
                                        </tooltip>
                                     </Button>
-                                    <ComboBox fx:id="gradeInput1" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                                    <ComboBox fx:id="gradeInput2" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <ComboBox fx:id="gradeInput3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="gradeInput0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                    <ComboBox fx:id="gradeInput1" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ComboBox fx:id="gradeInput2" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
